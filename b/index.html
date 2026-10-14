@@ -1,154 +1,164 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#151311">
-<title>Nastya Nico, фотограф · вариант Б</title>
-<meta name="description" content="Фотограф: портреты, роспись, свадьбы. Макет редизайна сайта nastya.nico, вариант Б.">
-<script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches&&!location.search.includes("shot"))document.documentElement.classList.add("js-motion")</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>nastya nico, фотограф в москве: портрет, пара, свадьба</title>
+<meta name="description" content="женский и мужской портрет, фотосессия для пары, роспись и свадьба в москве. кадры чёрно-белые и тёплые. стоимость и даты напишу в telegram">
+<meta property="og:title" content="nastya nico, фотограф, москва">
+<meta name="theme-color" content="#151413">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Onest:wght@200;300;400;500&display=swap">
-<link rel="stylesheet" href="../assets/css/tokens.css">
-<link rel="stylesheet" href="../assets/css/components.css">
-<link rel="preload" as="image" href="../assets/img/home-1024.webp" imagesrcset="../assets/img/home-640.webp 640w, ../assets/img/home-1024.webp 1024w, ../assets/img/home-1600.webp 1600w" imagesizes="100vw">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="../photos/f05.jpg" fetchpriority="high">
+<link rel="stylesheet" href="style.css">
 </head>
-<body class="nn-root" data-theme="graphite">
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="clip" viewBox="0 0 16 16"><path d="M10.6 4.2 5.4 9.4a1.3 1.3 0 0 0 1.8 1.8l5.6-5.6a2.6 2.6 0 0 0-3.7-3.7L3.4 7.6a3.9 3.9 0 0 0 5.5 5.5l4.6-4.6" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></symbol>
+</svg>
 
-<div class="nn-container">
-  <header class="nn-header">
-    <a class="nn-brand" href="#top"><span class="nn-dot" aria-hidden="true"></span>Nastya Nico</a>
-    <nav class="nn-nav" aria-label="Разделы">
-      <a href="#work">портфолио</a>
-      <a href="#about">обо мне</a>
-      <a href="#contact">контакты</a>
-    </nav>
-    <a class="nn-header__cta" href="https://t.me/+79152677840" target="_blank" rel="noopener">написать ↗</a>
-    <button class="nn-menu-toggle" type="button" aria-controls="menu" aria-expanded="false">меню</button>
-  </header>
-</div>
-
-<div class="nn-menu" id="menu" aria-hidden="true">
-  <div class="nn-header">
-    <span class="nn-brand" aria-hidden="true"><span class="nn-dot"></span>Nastya Nico</span>
-    <button class="nn-menu-toggle" type="button" data-close>закрыть</button>
-  </div>
-  <nav class="nn-menu__nav" aria-label="Разделы">
-    <a href="#work">портфолио</a>
-    <a href="#about">обо мне</a>
-    <a href="#contact">контакты</a>
+<header class="hdr" id="hdr">
+  <a class="hdr__logo" href="#top">nastya&nbsp;nico</a>
+  <nav class="hdr__nav" aria-label="разделы">
+    <a href="#portret">портрет</a>
+    <a href="../soon/?p=para">пара</a>
+    <a href="../soon/?p=svadba">свадьба</a>
   </nav>
-  <div class="nn-menu__foot nn-contact">
-    <a class="nn-btn" href="https://t.me/+79152677840" target="_blank" rel="noopener">Написать в Telegram <span class="nn-btn__arrow" aria-hidden="true">↗</span></a>
-    <span class="nn-contact__alt">или <a class="nn-link" href="https://www.instagram.com/nastya.nico/" target="_blank" rel="noopener">Instagram</a></span>
-  </div>
+  <span class="hdr__clock mono" aria-hidden="true"><span class="hdr__city">москва</span> <time id="clock">--:--</time></span>
+  <button class="hdr__menu" id="menuBtn" aria-expanded="false" aria-controls="menu">меню</button>
+  <a class="cap cap--line hdr__cta" href="https://t.me/+79152677840" target="_blank" rel="noopener">написать&nbsp;↗</a>
+</header>
+<div class="menu" id="menu" hidden>
+  <a href="#portret">портрет</a>
+  <a href="../soon/?p=para">пара</a>
+  <a href="../soon/?p=svadba">свадьба</a>
 </div>
 
 <main id="top">
-  <section class="nn-hero-b nn-hero-b--cover">
-    <div class="nn-hero-b__panel">
-      <h1 class="nn-mega" data-lines>
-        <span class="nn-line"><span style="--i: 0">Как я&nbsp;вижу</span></span>
-        <span class="nn-line"><span style="--i: 1">тебя</span></span>
-      </h1>
-      <p class="nn-lead" data-reveal style="--delay: 350ms">Фотограф: портреты, роспись, свадьбы.</p>
-      <div class="nn-contact" data-reveal style="--delay: 470ms">
-        <a class="nn-btn" href="https://t.me/+79152677840" target="_blank" rel="noopener">Написать в Telegram <span class="nn-btn__arrow" aria-hidden="true">↗</span></a>
-        <span class="nn-contact__alt">или <a class="nn-link" href="https://www.instagram.com/nastya.nico/" target="_blank" rel="noopener">Instagram</a></span>
-      </div>
-    </div>
-
-    <figure class="nn-photo nn-hero-b__photo" data-reveal style="--focus: 50% 26%; --focus-sm: 60% 30%">
-      <img src="../assets/img/home-1024.webp"
-           srcset="../assets/img/home-640.webp 640w, ../assets/img/home-1024.webp 1024w, ../assets/img/home-1600.webp 1600w"
-           sizes="100vw" width="3277" height="4096" fetchpriority="high"
-           alt="Чёрно-белый женский портрет: девушка с длинными волосами, рука за головой, полоса света на стене">
-      <figcaption class="nn-meta nn-hero-b__caption">женский портрет</figcaption>
-      <figcaption class="nn-meta nn-hero-b__caption--top" aria-hidden="true">женский портрет</figcaption>
+  <!-- 1 · обложка -->
+  <section class="cover" id="cover" aria-label="обложка">
+    <figure class="cover__frame">
+      <img class="cover__img" src="../photos/f05.jpg" alt="чёрно-белый портрет девушки" width="1920" height="2400" fetchpriority="high">
+      <canvas class="cover__fog" id="fog" aria-hidden="true"></canvas>
     </figure>
-  </section>
-
-  <!-- ============ ПОРТФОЛИО ============ -->
-  <section class="nn-section" id="work">
-    <div class="nn-container">
-      <ol class="nn-work nn-work--stagger">
-        <li>
-          <div class="nn-work__head"><h2 class="nn-h2" data-reveal>Портрет</h2><p class="nn-meta">индивидуальная съёмка</p></div>
-          <ul class="nn-work__frames">
-            <li data-reveal><figure class="nn-photo" style="--focus: 60% 45%"><img src="../assets/img/f13-1024.webp" srcset="../assets/img/f13-640.webp 640w, ../assets/img/f13-1024.webp 1024w, ../assets/img/f13-1600.webp 1600w" sizes="(max-width: 700px) 100vw, 32vw" width="1920" height="1920" loading="lazy" decoding="async" alt="Чёрно-белый портрет девушки, рука над головой, свет из окна"></figure></li>
-            <li data-reveal style="--delay: 120ms"><figure class="nn-photo" style="--focus: 50% 40%"><img src="../assets/img/m08-1024.webp" srcset="../assets/img/m08-640.webp 640w, ../assets/img/m08-1024.webp 1024w, ../assets/img/m08-1600.webp 1600w" sizes="(max-width: 700px) 50vw, 32vw" width="1920" height="2880" loading="lazy" decoding="async" alt="Чёрно-белый портрет кудрявого парня у большого окна"></figure></li>
-            <li data-reveal style="--delay: 240ms"><figure class="nn-photo" style="--focus: 50% 40%"><img src="../assets/img/f12-1024.webp" srcset="../assets/img/f12-640.webp 640w, ../assets/img/f12-1024.webp 1024w, ../assets/img/f12-1600.webp 1600w" sizes="(max-width: 700px) 50vw, 32vw" width="1920" height="2879" loading="lazy" decoding="async" alt="Портрет девушки в розовой рубашке, она обнимает колени, вокруг полумрак"></figure></li>
-          </ul>
-        </li>
-        <li>
-          <div class="nn-work__head"><h2 class="nn-h2" data-reveal>Роспись</h2><p class="nn-meta">для двоих</p></div>
-          <ul class="nn-work__frames">
-            <li data-reveal><figure class="nn-photo" style="--focus: 50% 30%"><img src="../assets/img/r13-1024.webp" srcset="../assets/img/r13-640.webp 640w, ../assets/img/r13-1024.webp 1024w, ../assets/img/r13-1600.webp 1600w" sizes="(max-width: 700px) 100vw, 32vw" width="1920" height="2399" loading="lazy" decoding="async" alt="Невеста в белом жакете с букетом пионов у высокого окна"></figure></li>
-            <li data-reveal style="--delay: 120ms"><figure class="nn-photo"><img src="../assets/img/r09-1024.webp" srcset="../assets/img/r09-640.webp 640w, ../assets/img/r09-1024.webp 1024w, ../assets/img/r09-1600.webp 1600w" sizes="(max-width: 700px) 50vw, 32vw" width="1920" height="2400" loading="lazy" decoding="async" alt="Чёрно-белый кадр: пара целуется в старом лифте, невеста приподняла ногу"></figure></li>
-            <li data-reveal style="--delay: 240ms"><figure class="nn-photo" style="--focus: 50% 40%"><img src="../assets/img/r20-1024.webp" srcset="../assets/img/r20-640.webp 640w, ../assets/img/r20-1024.webp 1024w, ../assets/img/r20-1600.webp 1600w" sizes="(max-width: 700px) 50vw, 32vw" width="1920" height="2400" loading="lazy" decoding="async" alt="Крупный план: жених касается лица невесты, на ней короткая вуаль в сетку"></figure></li>
-          </ul>
-        </li>
-        <li>
-          <div class="nn-work__head"><h2 class="nn-h2" data-reveal>Свадьба</h2><p class="nn-meta">для жениха и&nbsp;невесты</p></div>
-          <ul class="nn-work__frames">
-            <li data-reveal><figure class="nn-photo" style="--focus: 50% 35%"><img src="../assets/img/w22-1024.webp" srcset="../assets/img/w22-640.webp 640w, ../assets/img/w22-1024.webp 1024w, ../assets/img/w22-1600.webp 1600w" sizes="(max-width: 700px) 100vw, 32vw" width="1920" height="2880" loading="lazy" decoding="async" alt="Жених и невеста касаются лбами у белых колонн, в руках у неё каллы"></figure></li>
-            <li data-reveal style="--delay: 120ms"><figure class="nn-photo" style="--focus: 50% 35%"><img src="../assets/img/w07-1024.webp" srcset="../assets/img/w07-640.webp 640w, ../assets/img/w07-1024.webp 1024w, ../assets/img/w07-1600.webp 1600w" sizes="(max-width: 700px) 50vw, 32vw" width="1920" height="2880" loading="lazy" decoding="async" alt="Поцелуй в сосновом лесу, фата развевается на ветру"></figure></li>
-            <li data-reveal style="--delay: 240ms"><figure class="nn-photo" style="--focus: 50% 30%"><img src="../assets/img/w14-1024.webp" srcset="../assets/img/w14-640.webp 640w, ../assets/img/w14-1024.webp 1024w, ../assets/img/w14-1600.webp 1600w" sizes="(max-width: 700px) 50vw, 32vw" width="1920" height="2880" loading="lazy" decoding="async" alt="Невеста в платье с бантами смеётся в лучах заходящего солнца"></figure></li>
-          </ul>
-        </li>
-      </ol>
-      <div class="nn-work__foot" data-reveal>
-        <p class="nn-note">Стоимость и&nbsp;свободные даты напишу в&nbsp;Telegram.</p>
-        <div class="nn-contact"><a class="nn-btn" href="https://t.me/+79152677840" target="_blank" rel="noopener">Узнать о&nbsp;свободных датах <span class="nn-btn__arrow" aria-hidden="true">↗</span></a></div>
-      </div>
+    <div class="cover__text grid">
+      <h1 class="cover__name" id="name">nastya&nbsp;nico</h1>
+      <p class="cover__sub mono">фотограф, москва</p>
     </div>
   </section>
 
-  <!-- ============ ОБО МНЕ ============ -->
-  <section class="nn-section nn-section--top0" id="about">
-    <div class="nn-container nn-grid nn-about nn-about--one">
-      <div class="nn-about__title">
-        <p class="nn-meta">обо мне</p>
-        <p class="nn-hand nn-hand--s" data-reveal>привет, друзья!</p>
-        <h2 class="nn-display" data-reveal style="--delay: 120ms">Я&nbsp;— Настя</h2>
+  <!-- 2–5 · лента кадров: одна сцена, кадры растворяются друг в друга -->
+  <div class="reel" id="reel">
+    <div class="reel__stage" aria-hidden="true">
+      <canvas id="gl"></canvas>
+    </div>
+
+    <section class="scene scene--f" id="portret" data-bg="#262625" data-fx="0.56" data-fy="0.44">
+      <div class="scene__pin">
+        <img class="scene__photo" src="../photos/f13.jpg" alt="чёрно-белый женский портрет у окна" width="1920" height="1920" loading="lazy" decoding="async" style="--ox:56%;--oy:44%;--ar:1/1">
+        <div class="scene__text grid">
+          <h2 class="scene__h">женский портрет</h2>
+          <p class="note mono">
+            <span class="note__tag"><svg><use href="#clip"/></svg>из дневника</span>
+            <span class="note__line">снимаю, как я&nbsp;вижу тебя.</span>
+            <span class="note__line">и&nbsp;этот мир в&nbsp;целом)</span>
+          </p>
+        </div>
       </div>
-      <div class="nn-about__body">
-        <p class="nn-lead" data-reveal>Снимаю для себя то, что случается само&nbsp;— дождь в&nbsp;Гуанчжоу, стаканчик овсяного латте из&nbsp;серфа, август, который летит слишком быстро.</p>
+    </section>
+
+    <section class="scene scene--m" id="muzhskoy" data-bg="#151515" data-fx="0.46" data-fy="0.42">
+      <div class="scene__pin">
+        <img class="scene__photo" src="../photos/m16.jpg" alt="чёрно-белый мужской портрет" width="1920" height="2400" loading="lazy" decoding="async" style="--ox:46%;--oy:42%;--ar:4/5">
+        <div class="scene__text grid">
+          <h2 class="scene__h">мужской портрет</h2>
+          <p class="note mono">
+            <span class="note__tag"><svg><use href="#clip"/></svg>из дневника</span>
+            <span class="note__line">учусь видеть мир не&nbsp;только чёрно-белым.</span>
+            <span class="note__line">что не&nbsp;скажешь о&nbsp;моих работах)</span>
+          </p>
+        </div>
       </div>
+    </section>
+
+    <section class="scene scene--p" id="para" data-bg="#2a1e18" data-fx="0.58" data-fy="0.36">
+      <div class="scene__pin">
+        <img class="scene__photo" src="../photos/r34.jpg" alt="пара: лица близко, тёплый свет" width="1920" height="2880" loading="lazy" decoding="async" style="--ox:58%;--oy:36%;--ar:2/3">
+        <div class="scene__text grid">
+          <h2 class="scene__h">
+            <a class="door" href="../soon/?p=para">пара<span class="door__mini" aria-hidden="true"><img src="../photos/r09.jpg" alt="" loading="lazy"></span></a>
+          </h2>
+          <p class="note mono">
+            <span class="note__tag"><svg><use href="#clip"/></svg>из дневника</span>
+            <span class="note__line">такие дни проходят слишком быстро</span>
+            <span class="note__line">и&nbsp;ещё долго догоняют тебя</span>
+          </p>
+          <a class="door__link mono" href="../soon/?p=para">смотреть кадры →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene scene--w" id="svadba" data-bg="#2c2213" data-fx="0.52" data-fy="0.34">
+      <div class="scene__pin">
+        <img class="scene__photo" src="../photos/w14.jpg" alt="невеста в сосновом лесу на закате" width="1920" height="2880" loading="lazy" decoding="async" style="--ox:52%;--oy:34%;--ar:2/3">
+        <div class="scene__text grid">
+          <h2 class="scene__h">
+            <a class="door" href="../soon/?p=svadba">роспись и&nbsp;свадьба<span class="door__mini" aria-hidden="true"><img src="../photos/w07.jpg" alt="" loading="lazy"></span></a>
+          </h2>
+          <p class="note mono">
+            <span class="note__tag"><svg><use href="#clip"/></svg>из дневника</span>
+            <span class="note__line">праздник закончился, я&nbsp;взяла кусок торта</span>
+            <span class="note__line">в&nbsp;контейнере и&nbsp;поехала домой</span>
+          </p>
+          <a class="door__link mono" href="../soon/?p=svadba">смотреть кадры →</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 6 · обо мне: бумага наезжает на последний кадр -->
+  <section class="about" id="about" aria-labelledby="aboutH">
+    <div class="about__melt" aria-hidden="true"></div>
+    <div class="grid about__grid">
+      <p class="about__tag mono"><svg><use href="#clip"/></svg>08.12.2025</p>
+      <h2 class="about__h" id="aboutH">привет, друзья</h2>
+      <p class="about__body" id="aboutBody">
+        <span class="l">я&nbsp;настя. nico, так меня звали в&nbsp;университете.</span>
+        <span class="l">с&nbsp;фотографией мы&nbsp;были порознь два с&nbsp;половиной года.</span>
+        <span class="l">в&nbsp;декабре 2025 я&nbsp;снова взяла в&nbsp;руки фотоаппарат</span>
+        <span class="l">и&nbsp;точно больше не&nbsp;хочу быть врозь.</span>
+        <span class="l">а&nbsp;летом сняла свадьбу и&nbsp;бесповоротно влюбилась в&nbsp;фотографию.</span>
+        <span class="l">для себя снимаю то, что случается само:</span>
+        <span class="l">дождь в&nbsp;гуанчжоу, латте на&nbsp;овсяном из&nbsp;серфа.</span>
+      </p>
     </div>
   </section>
 
-  <!-- ============ СВЯЗЬ ============ -->
-  <section class="nn-final nn-block--surface" id="contact">
-    <div class="nn-container">
-      <h2 class="nn-mega" data-lines>
-        <span class="nn-line"><span style="--i: 0">Пиши, если хочешь</span></span>
-        <span class="nn-line"><span style="--i: 1">так&nbsp;же красиво</span></span>
-      </h2>
-      <div class="nn-contact" data-reveal><a class="nn-btn" href="https://t.me/+79152677840" target="_blank" rel="noopener">Написать в Telegram <span class="nn-btn__arrow" aria-hidden="true">↗</span></a><span class="nn-contact__alt">или <a class="nn-link" href="https://www.instagram.com/nastya.nico/" target="_blank" rel="noopener">Instagram</a></span></div>
+  <!-- 7 · связь -->
+  <section class="contact" id="contact" aria-labelledby="contactH">
+    <div class="grid contact__grid">
+      <h2 class="contact__h" id="contactH">напиши мне</h2>
+      <div class="contact__lines">
+        <p>ко&nbsp;мне в&nbsp;кадр снова можно попасть.</p>
+        <p>стоимость и&nbsp;даты напишу в&nbsp;telegram</p>
+      </div>
+      <a class="cap cap--solid contact__btn" href="https://t.me/+79152677840" target="_blank" rel="noopener">написать в&nbsp;telegram</a>
+      <ul class="contact__quiet mono">
+        <li><a href="https://instagram.com/nastya.nico" target="_blank" rel="noopener">instagram · nastya.nico</a></li>
+        <li><a href="https://t.me/nicosmalltalk" target="_blank" rel="noopener">канал · nico смол ток</a></li>
+      </ul>
     </div>
+    <footer class="foot grid mono">
+      <span>nastya&nbsp;nico · москва</span>
+    </footer>
   </section>
 </main>
 
-<footer class="nn-footer">
-  <div class="nn-container nn-grid nn-footer__grid">
-    <div class="nn-footer__brand">
-      <a class="nn-brand" href="#top"><span class="nn-dot" aria-hidden="true"></span>Nastya Nico</a>
-      <p class="nn-note">Фотограф: портреты, роспись, свадьбы.</p>
-    </div>
-    <ul class="nn-footer__links">
-      <li><a class="nn-link" href="https://t.me/+79152677840" target="_blank" rel="noopener">Telegram</a></li>
-      <li><a class="nn-link" href="https://www.instagram.com/nastya.nico/" target="_blank" rel="noopener">Instagram</a></li>
-    </ul>
-    <div class="nn-footer__legal">
-      <p class="nn-meta">nastya.nico</p>
-      <p class="nn-meta">© 2026</p>
-    </div>
-  </div>
-</footer>
-
-<script src="../assets/js/motion.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script src="main.js" defer></script>
 </body>
 </html>

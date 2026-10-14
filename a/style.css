@@ -1,0 +1,200 @@
+/* направление A · apple-design · маска-проявка
+   палитра — замеры кадров (photos/full), см. README */
+:root {
+  --graphite: #272727;   /* f05, край кадра */
+  --graphite-2: #3f3f3f; /* m16 */
+  --silver: #a9a9a9;     /* f02 */
+  --chestnut: #2a211d;   /* r34 */
+  --honey-dark: #272219; /* w18 */
+  --honey: #c89a62;      /* w14 светлая точка, единственный акцент */
+  --paper: #f3eee5;      /* тёплая бумага текстовых мест */
+  --paper-2: #e9e1d4;
+  --ink: #1c1814;
+  --ink-soft: #5d554c;
+  --milk: #f6f2ec;       /* светлый текст на кадрах */
+
+  --f-sans: "Commissioner", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  /* шкала: 12 · 13 · 20 · 26 · 40 · 64 · 96 · имя */
+  --t-12: 12px; --t-13: 13px; --t-20: 20px; --t-26: 26px;
+  --t-40: 40px; --t-64: 64px; --t-96: 96px;
+  --t-name: clamp(64px, 17.2vw, 300px);
+
+  /* сетка 12 кол. на 1440: поля 40, гаттер 20 */
+  --pad: 40px; --gut: 20px; --cols: 12;
+  --seam: 115svh; /* длина одного стыка в прокрутке */
+  --hdr: 64px;
+}
+@media (max-width: 760px) {
+  :root { --pad: 16px; --gut: 12px; --cols: 4; --hdr: 52px; --seam: 100svh;
+    --t-name: clamp(52px, 17.4vw, 96px); }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+body { margin: 0; background: var(--graphite); color: var(--milk);
+  font: 400 var(--t-13)/1.5 var(--f-sans); letter-spacing: .01em;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; }
+img { display: block; }
+mark.stub { background: color-mix(in srgb, var(--honey) 34%, transparent); color: inherit; padding: 0 .2em; border-radius: 2px; }
+.mono { font-family: var(--f-mono); }
+.skip { position: absolute; left: -9999px; }
+.skip:focus { left: 12px; top: 12px; z-index: 100; background: var(--paper); color: var(--ink); padding: 8px 12px; border-radius: 999px; }
+
+.g { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); column-gap: var(--gut); padding-inline: var(--pad); }
+
+/* ── шапка: стеклянный слой, контент едет под ним (apple §12) ── */
+.top { position: fixed; z-index: 50; inset: 0 0 auto 0; height: var(--hdr);
+  display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); column-gap: var(--gut);
+  padding-inline: var(--pad); align-items: center; color: var(--chrome, var(--milk));
+  transition: color .45s cubic-bezier(.22, 1, .36, 1); }
+.top a { text-decoration: none; }
+.logo { grid-column: 1 / 4; font-size: var(--t-13); font-weight: 500; letter-spacing: .01em; }
+.nav { grid-column: 5 / 9; display: flex; gap: 28px; font-size: var(--t-13); }
+.nav a { opacity: .78; transition: opacity .2s; }
+.nav a:hover { opacity: 1; }
+.menu-btn { display: none; }
+.top .pill { grid-column: 11 / 13; justify-self: end; }
+
+.pill { display: inline-flex; align-items: center; gap: .4em; height: 36px; padding: 0 16px; border-radius: 999px;
+  font: 500 var(--t-13)/1 var(--f-sans); letter-spacing: .015em; text-decoration: none; white-space: nowrap;
+  border: 1px solid currentColor; transition: transform .1s ease-out, background-color .3s; }
+.pill:active { transform: scale(.97); } /* отклик на нажатие, а не на отпускание (apple §1) */
+.glass { border-color: color-mix(in srgb, currentColor 30%, transparent);
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%); }
+.pill-ink { background: var(--ink); color: var(--paper); border-color: var(--ink); height: 48px; padding: 0 26px; font-size: 14px; }
+.pill-ink:hover { background: #000; }
+
+/* ── история (без JS: секции подряд) ── */
+.story { position: relative; }
+.scene { position: relative; height: 100svh; min-height: 560px; overflow: hidden; background: var(--bg); color: var(--milk); }
+.scene[data-ink="dark"] { color: var(--ink); }
+.ph { position: absolute; inset: 0; overflow: hidden; }
+.ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  object-position: var(--fx) var(--fy); transform: scale(var(--z, 1)); transform-origin: var(--fx) var(--fy); }
+.ph .lit { display: none; }
+/* мягкая кромка снизу под подписью — не плашка, а уход кадра в свой цвет */
+.scene::after { content: ""; position: absolute; inset: auto 0 0 0; height: 46%; pointer-events: none; z-index: 1;
+  background: linear-gradient(to top, color-mix(in srgb, var(--bg) 72%, transparent), transparent); }
+.scene .dim { position: absolute; inset: 0; background: var(--bg); opacity: 0; z-index: 2; pointer-events: none; }
+
+.cap { position: absolute; inset: auto 0 0 0; z-index: 3; padding-bottom: clamp(28px, 6.5vh, 64px);
+  display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); column-gap: var(--gut); padding-inline: var(--pad); align-items: end; }
+.cap h2 { grid-column: 1 / 8; margin: 0; font-weight: 250; font-size: var(--t-96); line-height: .92; letter-spacing: -.045em; }
+.note { grid-column: 9 / 13; font: 400 var(--t-12)/1.6 var(--f-mono); letter-spacing: .02em; opacity: .92; }
+.note p { margin: 6px 0 0; font-size: var(--t-13); letter-spacing: 0; }
+.clip { font-family: system-ui, sans-serif; }
+.door { grid-column: 9 / 13; justify-self: start; margin-top: 18px; }
+.cap .door { grid-row: 2; }
+
+/* обложка */
+.cap-cover { display: flex; flex-direction: column-reverse; align-items: flex-start; padding-bottom: clamp(36px, 6vh, 64px); }
+.name { margin: 0; font-weight: 200; font-size: var(--t-name); line-height: .8; letter-spacing: -.058em; margin-left: -.04em; white-space: nowrap; }
+.sub { margin: 0 0 22px 4px; font: 400 var(--t-12)/1 var(--f-mono); letter-spacing: .04em; opacity: .85; }
+
+/* рельс: где я и куда дальше (apple: wayfinding) */
+.rail { position: fixed; z-index: 40; right: 22px; top: 50%; transform: translateY(-50%); margin: 0; padding: 0; list-style: none;
+  display: grid; gap: 12px; justify-items: end; color: var(--chrome, var(--milk)); transition: opacity .4s, color .45s; }
+.rail button { all: unset; cursor: pointer; display: block; height: 9px; padding: 4px 0; }
+.rail button::after { content: ""; display: block; height: 1px; width: 14px; background: currentColor; opacity: .45;
+  transition: width .4s cubic-bezier(.22, 1, .36, 1), opacity .4s; }
+.rail button[aria-current="true"]::after { width: 34px; opacity: 1; }
+.rail button:focus-visible { outline: 1px solid currentColor; outline-offset: 3px; }
+html:not(.motion) .rail { display: none; }
+
+/* ── обо мне: заметка на градиентном поле (C8, C10) ── */
+.about { position: relative; color: var(--milk);
+  background: linear-gradient(180deg, var(--honey-dark) 0%, #3b2f24 34%, #5e4a37 62%, #7a6249 74%, #cdb89c 90%, var(--paper) 100%);
+  padding: 24vh 0 30vh; }
+.about-date { grid-column: 4 / 10; margin: 0 0 18px; font-size: var(--t-12); letter-spacing: .04em; opacity: .8; }
+.about-h { grid-column: 4 / 10; margin: 0 0 40px; font-weight: 250; font-size: var(--t-64); line-height: .95; letter-spacing: -.04em; }
+.about-t { grid-column: 4 / 11; margin: 0; font-weight: 300; font-size: var(--t-26); line-height: 1.34; letter-spacing: -.012em; }
+.about-t .ln { display: block; }
+
+/* ── связь ── */
+.contact { background: var(--paper); color: var(--ink); padding: 14vh 0 0; min-height: 100svh; display: flex; flex-direction: column; }
+.contact-h { grid-column: 1 / 13; margin: 0; font-weight: 200; font-size: clamp(64px, 12.6vw, 220px); line-height: .82; letter-spacing: -.058em; margin-left: -.04em; }
+.contact-t { grid-column: 1 / 5; margin: 44px 0 28px; font-size: var(--t-13); line-height: 1.6; }
+.contact .pill-ink { grid-column: 1 / 5; justify-self: start; }
+.quiet { grid-column: 9 / 13; grid-row: 2 / 4; align-self: end; list-style: none; margin: 0; padding: 0;
+  font: 400 var(--t-12)/2 var(--f-mono); letter-spacing: .02em; }
+.quiet a { text-decoration: none; color: var(--ink-soft); background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0 1px; background-repeat: no-repeat; background-position: 0 100%; transition: background-size .35s cubic-bezier(.22, 1, .36, 1), color .2s; }
+.quiet a:hover { color: var(--ink); background-size: 100% 1px; }
+.foot { margin-top: auto; padding-top: 18vh; padding-bottom: 22px; font: 400 var(--t-12)/1 var(--f-mono); letter-spacing: .04em; color: var(--ink-soft); }
+.foot span { grid-column: 1 / 13; }
+
+/* зерно — сгенерировано кодом (app.js), статичное: без мерцания по всему экрану */
+.grain { position: fixed; inset: 0; z-index: 45; pointer-events: none; opacity: .045; mix-blend-mode: overlay; background-image: var(--grain); }
+
+.gridov { position: fixed; inset: 0; z-index: 90; pointer-events: none; display: none; }
+.gridov .g { height: 100%; }
+.gridov i { background: rgba(255, 60, 60, .08); outline: 1px solid rgba(255, 60, 60, .18); }
+html.show-grid .gridov { display: block; }
+
+/* ── режим движения: экран закреплён, кадры проступают ── */
+html.motion .story { height: calc(100svh + 4 * var(--seam)); }
+html.motion .stage { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+html.motion .scene { position: absolute; inset: 0; height: auto; min-height: 0; will-change: mask-image; }
+html.motion .scene:not(.s-cover) { visibility: hidden; }
+html.motion .ph img { will-change: transform; }
+
+/* обложка: «осветление под рукой» — тот же кадр, светлее, в мягком круге */
+html.motion .s-cover .base { filter: brightness(.5) contrast(1.04); }
+html.motion .s-cover .lit { display: block; filter: none;
+  -webkit-mask-image: radial-gradient(circle var(--lr, 0px) at var(--lx, 50%) var(--ly, 30%), #000 0%, rgba(0,0,0,.82) 38%, rgba(0,0,0,.32) 66%, transparent 100%);
+          mask-image: radial-gradient(circle var(--lr, 0px) at var(--lx, 50%) var(--ly, 30%), #000 0%, rgba(0,0,0,.82) 38%, rgba(0,0,0,.32) 66%, transparent 100%); }
+html.motion .s-cover .cap-cover .name,
+html.motion .s-cover .cap-cover .sub { opacity: var(--capo, 0); transform: translateY(calc((1 - var(--capo, 0)) * 14px)); }
+
+html.motion .about-t .ln { opacity: .0; transform: translateY(14px); transition: opacity .9s cubic-bezier(.22, 1, .36, 1), transform .9s cubic-bezier(.22, 1, .36, 1); }
+html.motion .about-t .ln.in { opacity: 1; transform: none; }
+
+/* ── телефон: вертикаль целиком, поле цвета кадра вокруг ── */
+@media (max-width: 760px) {
+  .nav { display: none; }
+  .logo { grid-column: 1 / 3; }
+  .menu-btn { display: block; grid-column: 3; justify-self: end; all: unset; font-size: var(--t-13); cursor: pointer; opacity: .85; }
+  .top .pill { grid-column: 4; height: 32px; padding: 0 12px; }
+  .top.open .nav { display: grid; position: fixed; inset: var(--hdr) 0 auto 0; padding: 20px var(--pad) 28px; gap: 14px; font-size: var(--t-26); font-weight: 300;
+    background: color-mix(in srgb, var(--graphite) 72%, transparent); -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%); color: var(--milk); }
+
+  .scene { height: auto; min-height: 100svh; }
+  .ph { position: relative; inset: auto; }
+  .ph img { position: relative; inset: auto; width: 100%; height: auto; object-fit: initial; transform: none;
+    -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent); mask-image: linear-gradient(to bottom, #000 78%, transparent); }
+  .ph .lit { position: absolute; inset: 0; }
+  .scene::after { display: none; }
+  .cap { position: absolute; padding-bottom: 28px; row-gap: 14px; }
+  .cap h2 { grid-column: 1 / 5; font-size: var(--t-40); line-height: .95; letter-spacing: -.035em; }
+  .note, .door { grid-column: 1 / 5; }
+  .cap .door { grid-row: auto; margin-top: 2px; }
+  .cap-cover { padding-bottom: 40px; }
+  html.motion .s-cover .lit { -webkit-mask-image: radial-gradient(circle var(--lr, 0px) at var(--lx, 50%) var(--ly, 30%), #000 0%, rgba(0,0,0,.82) 38%, rgba(0,0,0,.32) 66%, transparent 100%), linear-gradient(to bottom, #000 78%, transparent);
+    -webkit-mask-composite: source-in; mask-composite: intersect; }
+  html.motion .s-cover .base { -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent); mask-image: linear-gradient(to bottom, #000 78%, transparent); }
+
+  .rail { right: 10px; gap: 9px; }
+  .rail button::after { width: 8px; } .rail button[aria-current="true"]::after { width: 20px; }
+
+  .about { padding: 18vh 0 22vh; }
+  .about-date, .about-h, .about-t { grid-column: 1 / 5; }
+  .about-h { font-size: var(--t-40); margin-bottom: 26px; }
+  .about-t { font-size: 19px; line-height: 1.38; }
+  .about-t .ln { display: inline; } .about-t .ln::after { content: " "; }
+  .contact-h { grid-column: 1 / 5; font-size: 22vw; }
+  .contact-t, .contact .pill-ink { grid-column: 1 / 5; }
+  .quiet { grid-column: 1 / 5; grid-row: auto; margin-top: 40px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-t .ln { opacity: 1 !important; transform: none !important; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass { background: color-mix(in srgb, currentColor 22%, var(--graphite)); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
