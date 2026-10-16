@@ -16,6 +16,10 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-r" viewBox="-1 -12.5 22 25"><path d="M0 0H20M20 0L3.62 11.47M20 0L3.62 -11.47" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></symbol>
+  <symbol id="i-ne" viewBox="-3.62 -8.07 21.7 21.7"><g transform="rotate(-45 10 0)"><path d="M0 0H20M20 0L3.62 11.47M20 0L3.62 -11.47" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></g></symbol>
+</svg>
 <a class="skip" href="#contact">к связи</a>
 
 <header class="hdr" id="hdr">
@@ -26,7 +30,7 @@
     <a class="hdr__link hdr__link--3" href="../soon/?p=svadba">свадьба</a>
   </nav>
   <button class="hdr__menu" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu">меню</button>
-  <a class="cap cap--line hdr__cta" href="https://t.me/+79152677840" target="_blank" rel="noopener">написать&nbsp;↗</a>
+  <a class="cap cap--line hdr__cta" href="https://t.me/+79152677840" target="_blank" rel="noopener" aria-label="написать в telegram">написать<svg class="ic ic--ne" aria-hidden="true"><use href="#i-ne"/></svg></a>
 </header>
 <div class="menu grid" id="menu" hidden>
   <a href="#portret">портрет</a>
@@ -42,7 +46,7 @@
     <section class="scene scene--c" id="cover" aria-label="обложка">
       <div class="scene__pin">
         <figure class="scene__frame">
-          <img class="scene__photo" src="../photos/f05.jpg" alt="чёрно-белый портрет девушки" width="1920" height="2400" fetchpriority="high" style="--ox:50%;--oy:30%;--oxm:64%;--oym:50%">
+          <img class="scene__photo" src="../photos/f05.jpg" alt="чёрно-белый портрет девушки" width="1920" height="2400" fetchpriority="high" style="--ox:50%;--oy:30%;--oxm:50%">
         </figure>
         <div class="scene__text grid">
           <p class="cover__sub mono">фотограф, москва</p>
@@ -52,16 +56,16 @@
     </section>
 
     <!-- 2 · женский портрет -->
-    <section class="scene scene--f" id="portret">
+    <section class="scene scene--f" id="portret" data-hdr-m="ink">
       <div class="scene__pin">
         <figure class="scene__frame">
-          <img class="scene__photo" src="../photos/f13.jpg" alt="чёрно-белый женский портрет у окна" width="1920" height="1920" loading="lazy" decoding="async" style="--ox:50%;--oy:55%;--oxm:66%;--oym:50%">
+          <picture><source media="(max-width: 760px)" srcset="../photos/f02.jpg" width="1920" height="2400"><img class="scene__photo" src="../photos/f13.jpg" alt="чёрно-белый женский портрет" width="1920" height="1920" loading="lazy" decoding="async" style="--ox:50%;--oy:55%;--oxm:100%"></picture>
         </figure>
         <div class="scene__text grid">
-          <h2 class="scene__h">женский портрет</h2>
+          <h2 class="scene__h"><span class="ln" style="--ol:.04">женский</span> <span class="ln" style="--ol:.07">портрет</span></h2>
           <div class="scene__side">
             <p class="note mono"><span>снимаю, как я&nbsp;вижу тебя.</span> <span>и&nbsp;этот мир в&nbsp;целом)</span></p>
-            <a class="more mono" href="../soon/?p=portret" aria-label="смотреть кадры: женский портрет"><span>смотреть кадры</span><span class="more__arr" aria-hidden="true">→</span></a>
+            <a class="more mono" href="../soon/?p=portret" aria-label="смотреть кадры: женский портрет"><span>смотреть кадры</span><svg class="ic ic--r more__arr" aria-hidden="true"><use href="#i-r"/></svg></a>
           </div>
         </div>
       </div>
@@ -71,13 +75,13 @@
     <section class="scene scene--m" id="muzhskoy">
       <div class="scene__pin">
         <figure class="scene__frame">
-          <img class="scene__photo" src="../photos/m16.jpg" alt="чёрно-белый мужской портрет" width="1920" height="2400" loading="lazy" decoding="async" style="--ox:50%;--oy:56%;--oxm:56%;--oym:50%">
+          <img class="scene__photo" src="../photos/m16.jpg" alt="чёрно-белый мужской портрет" width="1920" height="2400" loading="lazy" decoding="async" style="--ox:50%;--oy:56%;--oxm:85%">
         </figure>
         <div class="scene__text grid">
-          <h2 class="scene__h">мужской портрет</h2>
+          <h2 class="scene__h"><span class="ln" style="--ol:.07;--or:.009">мужской</span> <span class="ln" style="--ol:.07;--or:-.025">портрет</span></h2>
           <div class="scene__side">
             <p class="note mono"><span>учусь видеть мир не&nbsp;только чёрно-белым.</span> <span>что не&nbsp;скажешь о&nbsp;моих работах)</span></p>
-            <a class="more mono" href="../soon/?p=portret" aria-label="смотреть кадры: мужской портрет"><span>смотреть кадры</span><span class="more__arr" aria-hidden="true">→</span></a>
+            <a class="more mono" href="../soon/?p=portret" aria-label="смотреть кадры: мужской портрет"><span>смотреть кадры</span><svg class="ic ic--r more__arr" aria-hidden="true"><use href="#i-r"/></svg></a>
           </div>
         </div>
       </div>
@@ -87,13 +91,13 @@
     <section class="scene scene--p" id="para">
       <div class="scene__pin">
         <figure class="scene__frame">
-          <img class="scene__photo" src="../photos/r14.jpg" alt="чёрно-белый кадр: пара целуется у арочного витражного окна на лестнице" width="1920" height="2400" loading="lazy" decoding="async" style="--ox:50%;--oy:55%;--oxm:2%;--oym:50%">
+          <img class="scene__photo" src="../photos/r14.jpg" alt="чёрно-белый кадр: пара целуется у арочного витражного окна на лестнице" width="1920" height="2400" loading="lazy" decoding="async" style="--ox:50%;--oy:55%;--oxm:50%">
         </figure>
         <div class="scene__text grid">
-          <h2 class="scene__h">пара</h2>
+          <h2 class="scene__h"><span class="ln" style="--ol:.07">пара</span></h2>
           <div class="scene__side">
             <p class="note mono"><span>такие дни проходят слишком быстро</span> <span>и&nbsp;ещё долго догоняют тебя</span></p>
-            <a class="more mono" href="../soon/?p=para" aria-label="смотреть кадры: пара"><span>смотреть кадры</span><span class="more__arr" aria-hidden="true">→</span></a>
+            <a class="more mono" href="../soon/?p=para" aria-label="смотреть кадры: пара"><span>смотреть кадры</span><svg class="ic ic--r more__arr" aria-hidden="true"><use href="#i-r"/></svg></a>
           </div>
         </div>
       </div>
@@ -103,13 +107,13 @@
     <section class="scene scene--w" id="svadba">
       <div class="scene__pin">
         <figure class="scene__frame">
-          <img class="scene__photo" src="../photos/w23.jpg" alt="руки молодожёнов с кольцом, букет калл, фата на фоне серого пиджака" width="1920" height="2880" loading="lazy" decoding="async" style="--ox:50%;--oy:47%;--oxm:20%;--oym:50%">
+          <img class="scene__photo" src="../photos/w23.jpg" alt="руки молодожёнов с кольцом, букет калл, фата на фоне серого пиджака" width="1920" height="2880" loading="lazy" decoding="async" style="--ox:50%;--oy:47%;--oxm:100%">
         </figure>
         <div class="scene__text grid">
-          <h2 class="scene__h">роспись и&nbsp;свадьба</h2>
+          <h2 class="scene__h"><span class="ln" style="--ol:.07;--or:-.017">роспись</span> <span class="ln" style="--ol:.07;--or:-.043">и&nbsp;свадьба</span></h2>
           <div class="scene__side">
             <p class="note mono"><span>сниму как вы&nbsp;обменялись кольцами</span> <span>и&nbsp;стали новой семьёй</span></p>
-            <a class="more mono" href="../soon/?p=svadba" aria-label="смотреть кадры: роспись и свадьба"><span>смотреть кадры</span><span class="more__arr" aria-hidden="true">→</span></a>
+            <a class="more mono" href="../soon/?p=svadba" aria-label="смотреть кадры: роспись и свадьба"><span>смотреть кадры</span><svg class="ic ic--r more__arr" aria-hidden="true"><use href="#i-r"/></svg></a>
           </div>
         </div>
       </div>
@@ -118,9 +122,9 @@
     <!-- 6 · обо мне -->
     <section class="field about" id="about" aria-labelledby="aboutH">
       <div class="grid about__grid">
-        <h2 class="about__h" id="aboutH">привет, друзья</h2>
+        <h2 class="about__h" id="aboutH"><span class="ln" style="--ol:.07">привет, друзья</span></h2>
         <p class="about__body" id="aboutBody">
-          <span class="l">я&nbsp;настя. nico, так меня звали в&nbsp;университете.</span>
+          <span class="l">я&nbsp;настя.</span>
           <span class="l">с&nbsp;фотографией мы&nbsp;были порознь два с&nbsp;половиной года.</span>
           <span class="l">в&nbsp;декабре 2025 я&nbsp;снова взяла в&nbsp;руки фотоаппарат</span>
           <span class="l">и&nbsp;точно больше не&nbsp;хочу быть врозь.</span>
@@ -134,12 +138,12 @@
     <!-- 7 · связь -->
     <section class="field contact" id="contact" aria-labelledby="contactH">
       <div class="grid contact__grid">
-        <h2 class="contact__h" id="contactH">напиши мне</h2>
+        <h2 class="contact__h" id="contactH"><span class="ln" style="--ol:.07">напиши мне</span></h2>
         <p class="contact__lines">ко&nbsp;мне в&nbsp;кадр снова можно попасть.</p>
-        <a class="cap cap--solid contact__btn" href="https://t.me/+79152677840" target="_blank" rel="noopener">написать в&nbsp;telegram</a>
+        <a class="cap cap--solid contact__btn" href="https://t.me/+79152677840" target="_blank" rel="noopener">написать в&nbsp;telegram<svg class="ic ic--ne" aria-hidden="true"><use href="#i-ne"/></svg></a>
         <ul class="contact__quiet mono">
-          <li><a href="https://instagram.com/nastya.nico" target="_blank" rel="noopener">instagram · nastya.nico</a></li>
-          <li><a href="https://t.me/nicosmalltalk" target="_blank" rel="noopener">канал · nico смол ток</a></li>
+          <li><a href="https://instagram.com/nastya.nico" target="_blank" rel="noopener">instagram · nastya.nico<svg class="ic ic--ne" aria-hidden="true"><use href="#i-ne"/></svg></a></li>
+          <li><a href="https://t.me/nicosmalltalk" target="_blank" rel="noopener">канал · nico смол ток<svg class="ic ic--ne" aria-hidden="true"><use href="#i-ne"/></svg></a></li>
         </ul>
       </div>
     </section>

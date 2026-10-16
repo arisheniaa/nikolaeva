@@ -2,7 +2,6 @@
 :root {
   /* палитра B (замер PIL по photos/full) + поле r32 */
   --graphite: #151413;
-  /* поля 390 = цвет нижней кромки кадра (замер PIL), на 1440 полей нет */
   --honey: #c98a3c;         /* единственный акцент: дымка стыка, фокус, ховер */
   --paper: #f3eee6;
   --paper-2: #ebe4d8;       /* поле «связи»: на тон глубже, чтобы стык читался */
@@ -23,11 +22,10 @@
   /* вертикаль: только шкала */
   --s1: 8px; --s2: 16px; --s3: 24px; --s4: 32px; --s6: 48px; --s8: 64px; --s12: 96px; --s16: 128px;
   --hdr: 64px;
-  --fade: 96px;             /* 390: растворение нижней кромки кадра в поле */
   --ease: cubic-bezier(.22, .8, .2, 1);
 }
 /* телефон: 4 кол. / поля 16 / гаттер 12 */
-@media (max-width: 760px) { :root { --cols: 4; --m: 16px; --g: 12px; --fade: 96px; } }
+@media (max-width: 760px) { :root { --cols: 4; --m: 16px; --g: 12px; --light: #ffffff; } }
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -48,8 +46,15 @@ a { color: inherit; text-decoration: none; }
   display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
   column-gap: var(--g); padding-inline: var(--m);
 }
+ /* стрелка: один SVG на все кнопки; тело = лучи (1.25em), штрих = толщина текста, круглые концы */
+.ic { flex: none; fill: none; stroke: currentColor; stroke-width: .085em; overflow: visible; vertical-align: middle; }
+.ic--r { width: 1.375em; height: 1.5625em; }
+.ic--ne { width: 1.356em; height: 1.356em; }
 :focus-visible { outline: 1px solid var(--honey); outline-offset: 4px; }
 .skip { position: absolute; left: -9999px; }
+/* дисплей: штамп буквы на линии колонки — компенсация бокового отступа глифа (замер canvas, em от кегля).
+   --ol левый отступ первой буквы строки; --or правая кромка последней (RSB + трекинг) для строк вправо. */
+.ln { display: block; margin-left: calc(var(--ol, 0) * -1em); }
 .skip:focus { left: var(--m); top: var(--s2); z-index: 100; background: var(--paper); color: var(--ink); padding: var(--s1) var(--s2); border-radius: 999px; }
 
 /* ---------- капсулы: ширина = колонки, текст по центру ---------- */
@@ -95,12 +100,16 @@ a { color: inherit; text-decoration: none; }
 .menu { display: none; }
 @media (max-width: 760px) {
   .hdr__link { display: none; }
-  .hdr__logo { grid-column: 1 / 3; }
+  .hdr__logo { grid-column: 1 / 2; white-space: nowrap; }
   .hdr__menu {
-    display: block; grid-column: 3 / 4; text-align: left; background: none; border: 0; padding: var(--s1) 0;
+    display: block; grid-column: 2 / 3; text-align: left; background: none; border: 0; padding: var(--s1) 0;
     color: inherit; font: inherit; text-shadow: inherit; cursor: pointer;
   }
-  .hdr__cta { grid-column: 4 / 5; padding: 0; }
+  .hdr__cta { grid-column: 3 / 5; padding: 0; background: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  /* 390: без плашек и размытия; над светлым кадром (f02) шапка чернилами */
+  .hdr::before { display: none; }   /* 390: без градиента (слово владельца), читаемость — тоном шапки по кадру */
+  .hdr { text-shadow: none; }
+  .hdr--dark { color: var(--ink); }
   .menu:not([hidden]) {
     position: fixed; inset: 0; z-index: 40; display: grid; align-content: center; row-gap: var(--s1);
     background: var(--paper); color: var(--ink);
@@ -120,6 +129,7 @@ a { color: inherit; text-decoration: none; }
 /* 1440: кадр на всю ширину, cover минимального масштаба (ширина кадра = ширина экрана); двигается только
    точка фокуса по вертикали. Полей и кромок нет. */
 .scene__frame { position: relative; grid-row: 1; grid-column: 1 / -1; margin-inline: calc(var(--m) * -1); height: 100%; overflow: hidden; }
+.scene__frame picture { display: contents; }   /* иначе inline-picture ломает height:100% у кадра */
 .scene__photo {
   width: 100%; height: 100%; object-fit: cover;
   object-position: var(--ox, 50%) var(--oy, 50%);
@@ -146,13 +156,15 @@ a { color: inherit; text-decoration: none; }
 }
 .scene--f { --sh: .42; }
 .scene--m { --sh: .6; }
-.scene--p { --sh: .3; }
+.scene--p { --sh: .38; }
 .scene--w { --sh: .5; }
 
 /* раскладки по экранам */
 .scene--f .scene__h { grid-column: 1 / 6; grid-row: 2; }   /* две строки по тёмным волосам, не через светлую шею */
 .scene--f .scene__side { grid-column: 1 / 3; grid-row: 1; }
 .scene--m .scene__h { grid-column: 6 / 13; text-align: right; }
+/* строки вправо: компенсируем правую кромку последней буквы */
+.scene--m .scene__h .ln, .scene--w .scene__h .ln { margin-left: 0; margin-right: calc(var(--or, 0) * -1em); }
 .scene--m .scene__side { grid-column: 1 / 4; }
 .scene--p .scene__h { grid-column: 1 / 8; }
 .scene--p .scene__side { grid-column: 10 / 13; }
@@ -162,7 +174,7 @@ a { color: inherit; text-decoration: none; }
 
 /* «смотреть кадры →»: моно-ссылка B, линия на всю ширину своих колонок */
 .more {
-  display: flex; justify-content: space-between; align-items: baseline; gap: var(--s2);
+  display: flex; justify-content: space-between; align-items: center; gap: var(--s2);
   padding-bottom: var(--s1); border-bottom: 1px solid color-mix(in srgb, currentColor 72%, transparent);
   transition: border-color .4s var(--ease);
 }
@@ -174,36 +186,32 @@ a { color: inherit; text-decoration: none; }
 .cover__sub { grid-column: 1 / 5; grid-row: 1; margin: 0; color: var(--light-2); }
 .cover__name {
   grid-column: 1 / 11; grid-row: 2; margin: 0; font-weight: 300; font-size: var(--t-4); line-height: .86;
-  letter-spacing: -0.065em; white-space: nowrap;
+  letter-spacing: -0.065em; white-space: nowrap; text-indent: -.07em;
 }
+.cover__name span { text-indent: 0; }   /* GSAP делит имя на inline-block буквы: отступ наследуется — гасим, иначе компенсация двойная */
 .scene--c .scene__text { row-gap: var(--s2); }
 
 @media (max-width: 760px) {
-  /* 390: вертикаль целиком — кадр занимает всё над подписью (режутся только бока), нижняя кромка
-     растворяется в поле цвета этой кромки, подпись у низа экрана — без провалов */
-  .scene--c { --scene-bg: #2b2b2b; }
-  .scene--f { --scene-bg: #6b6b6b; }
-  .scene--m { --scene-bg: #454545; }
-  .scene--p { --scene-bg: #101010; }
-  .scene--w { --scene-bg: #6b6360; }
-  .scene__pin { grid-template-rows: minmax(0, 1fr) auto; color: var(--side-ink, var(--light)); }
-  .scene .scene__frame {
-    grid-column: 1 / -1; grid-row: 1; height: 100%; min-height: 0;
-    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - var(--fade)), transparent);
-            mask-image: linear-gradient(to bottom, #000 calc(100% - var(--fade)), transparent);
-  }
-  .scene__photo { object-position: var(--oxm, var(--ox)) var(--oym, var(--oy)); }
+  /* 390 (круг 4, слово владельца): чистая фотография на весь экран и текст прямо на ней — без градиентов,
+     размытия и затемнений. Кадр вписан по высоте (вертикаль целиком), двигается только по горизонтали;
+     читаемость — подбором точки фокуса и места подписи (тёмные участки), проверено contrast.py */
+  .scene__photo { object-position: var(--oxm, var(--ox)) 50%; }
   .scene__h::before, .scene__side::before { display: none; }
-  .scene__text {
-    position: static; grid-column: 1 / -1; grid-row: 2; padding: var(--s3) 0 var(--s6);
-    align-content: start; align-items: start; row-gap: var(--s3);
-    grid-template-columns: subgrid;
-  }
-  .scene__text.grid { padding-inline: 0; }
+  .scene__text { padding-bottom: var(--s6); row-gap: var(--s3); }
   .scene__h { font-size: 13vw; }
   .scene .scene__h { grid-column: 1 / 5; grid-row: 1; text-align: left; }
   .scene .scene__side { grid-column: 1 / 5; grid-row: 2; }
   .note { font-size: 13px; }
+  .scene--c .scene__text, .scene--m .scene__text { align-content: start; }
+  .scene--f .scene__text { padding-bottom: var(--s8); }   /* f02: блок на волосах, выше белой подушки */   /* подпись наверху: f05 и m16 темнее сверху */
+  .scene--w .scene__h { grid-column: 2 / 5; text-align: right; }             /* w23: подпись справа по пиджаку */
+  .scene--w .scene__side { grid-column: 3 / 5; text-align: right; }   /* заметка в 3 строки по пиджаку, мимо лент */
+  /* w23: ленты слева и белая фата в правом нижнем углу — блок выше (96) и заголовок 11vw, чтобы строка
+     «и свадьба» начиналась правее лент; без плашек и затемнений (замер contrast.py) */
+  .scene--w .scene__text { padding-bottom: var(--s12); }
+  .scene--w .scene__h { font-size: 11vw; }
+  .scene--w .more { justify-self: end; width: 100%; }   /* кол.3–4 = вся ширина заметки */
+  .scene--m .scene__h .ln { margin-left: calc(var(--ol, 0) * -1em); margin-right: 0; }   /* на 390 мужской влево */
   .cover__sub { grid-column: 1 / 5; }
   .cover__name { grid-column: 1 / 5; font-size: 19.5vw; }
   .scene--c .scene__text { row-gap: var(--s2); }
@@ -227,13 +235,13 @@ a { color: inherit; text-decoration: none; }
 
 .contact__grid {
   row-gap: var(--s4); padding-top: var(--s8); padding-bottom: var(--s16);
-  border-top: 1px solid rgba(27, 23, 20, .14); margin-inline: var(--m); padding-inline: 0;
+  margin-inline: var(--m); padding-inline: 0;
 }
 .contact__h { grid-column: 1 / 13; margin: 0; font-weight: 300; font-size: var(--t-4); line-height: .86; letter-spacing: -0.065em; }
 .contact__lines { grid-column: 1 / 6; margin: 0; font-size: var(--t-l); line-height: 1.4; letter-spacing: -0.02em; align-self: center; }
 .contact__btn { grid-column: 7 / 10; }
 .contact__quiet { grid-column: 10 / 13; list-style: none; margin: 0; padding: 0; align-self: center; display: grid; row-gap: var(--s1); color: var(--ink-2); font-size: var(--t-s); }
-.contact__quiet a { border-bottom: 1px solid transparent; transition: border-color .3s; }
+.contact__quiet a { display: inline-flex; align-items: center; column-gap: .4em; border-bottom: 1px solid transparent; transition: border-color .3s; }
 .contact__quiet a:hover { border-color: currentColor; color: var(--ink); }
 
 @media (max-width: 760px) {
@@ -242,12 +250,13 @@ a { color: inherit; text-decoration: none; }
   .about__h { grid-column: 1 / 5; font-size: 13vw; }
   .about__body { grid-column: 1 / 5; font-size: var(--t-l); line-height: 1.4; }
   .about__body .l { display: inline; }
-  .contact { padding-top: var(--s12); }
+  .contact { padding-top: var(--s12); display: flex; flex-direction: column; justify-content: flex-end; }   /* как на экранах с кадром: блок у нижнего края */
   .contact__grid { padding-top: var(--s6); padding-bottom: var(--s12); row-gap: var(--s3); }
-  .contact__h { grid-column: 1 / 5; font-size: 19vw; }
+  /* ширина глифов «напиши мне» = 4.967 кегля (замер canvas с трекингом −0.065em): строка ровно от поля до поля */
+  .contact__h { grid-column: 1 / 5; font-size: calc((100vw - 2 * var(--m)) / 4.967); white-space: nowrap; }
   .contact__lines { grid-column: 1 / 5; font-size: 18px; }
   .contact__btn { grid-column: 1 / 5; }
-  .contact__quiet { grid-column: 1 / 5; }
+  .contact__quiet { grid-column: 1 / 5; justify-items: end; text-align: right; }
 }
 
 /* зерно бумаги: SVG-шум, статично */
