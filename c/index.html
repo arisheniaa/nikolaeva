@@ -35,12 +35,11 @@
 </div>
 
 <main id="top">
-  <!-- одна сцена на всю главную: кадры и поля экранов растворяются друг в друга (стык B) -->
-  <div class="reel" id="reel">
-    <div class="reel__stage" aria-hidden="true"><canvas id="gl"></canvas></div>
+  <!-- экраны идут обычным потоком: следующий просто пролистывается снизу (круг 3) -->
+  <div class="screens">
 
     <!-- 1 · обложка -->
-    <section class="scene scene--c" id="cover" aria-label="обложка" data-bg="#141414" data-bg-m="#2b2b2b" data-edge="L" data-fx="0,0,0">
+    <section class="scene scene--c" id="cover" aria-label="обложка">
       <div class="scene__pin">
         <figure class="scene__frame">
           <img class="scene__photo" src="../photos/f05.jpg" alt="чёрно-белый портрет девушки" width="1920" height="2400" fetchpriority="high" style="--ox:50%;--oy:30%;--oxm:64%;--oym:50%">
@@ -53,10 +52,10 @@
     </section>
 
     <!-- 2 · женский портрет -->
-    <section class="scene scene--f" id="portret" data-bg="#1f1f1f" data-bg-m="#6b6b6b" data-edge="L" data-fx=".32,.35,.055">
+    <section class="scene scene--f" id="portret">
       <div class="scene__pin">
         <figure class="scene__frame">
-          <img class="scene__photo" src="../photos/f13.jpg" alt="чёрно-белый женский портрет у окна" width="1920" height="1920" loading="lazy" decoding="async" style="--ox:50%;--oy:40%;--oxm:66%;--oym:50%">
+          <img class="scene__photo" src="../photos/f13.jpg" alt="чёрно-белый женский портрет у окна" width="1920" height="1920" loading="lazy" decoding="async" style="--ox:50%;--oy:55%;--oxm:66%;--oym:50%">
         </figure>
         <div class="scene__text grid">
           <h2 class="scene__h">женский портрет</h2>
@@ -69,10 +68,10 @@
     </section>
 
     <!-- 3 · мужской портрет -->
-    <section class="scene scene--m" id="muzhskoy" data-bg="#636363" data-bg-m="#454545" data-edge="L" data-fx=".32,.35,.055">
+    <section class="scene scene--m" id="muzhskoy">
       <div class="scene__pin">
         <figure class="scene__frame">
-          <img class="scene__photo" src="../photos/m16.jpg" alt="чёрно-белый мужской портрет" width="1920" height="2400" loading="lazy" decoding="async" style="--ox:50%;--oy:62%;--oxm:56%;--oym:50%">
+          <img class="scene__photo" src="../photos/m16.jpg" alt="чёрно-белый мужской портрет" width="1920" height="2400" loading="lazy" decoding="async" style="--ox:50%;--oy:56%;--oxm:56%;--oym:50%">
         </figure>
         <div class="scene__text grid">
           <h2 class="scene__h">мужской портрет</h2>
@@ -84,11 +83,11 @@
       </div>
     </section>
 
-    <!-- 4 · пара (раскладка A) -->
-    <section class="scene scene--p" id="para" data-bg="#7b665d" data-bg-m="#a99c91" data-edge="R" data-fx=".32,.35,.055">
+    <!-- 4 · пара (раскладка A, кадр r14) -->
+    <section class="scene scene--p" id="para">
       <div class="scene__pin">
         <figure class="scene__frame">
-          <img class="scene__photo" src="../photos/r34.jpg" alt="пара: лица близко, она в вуалетке, тёплый свет" width="1920" height="2880" loading="lazy" decoding="async" style="--ox:50%;--oy:18%;--oxm:80%;--oym:50%">
+          <img class="scene__photo" src="../photos/r14.jpg" alt="чёрно-белый кадр: пара целуется у арочного витражного окна на лестнице" width="1920" height="2400" loading="lazy" decoding="async" style="--ox:50%;--oy:55%;--oxm:2%;--oym:50%">
         </figure>
         <div class="scene__text grid">
           <h2 class="scene__h">пара</h2>
@@ -100,11 +99,11 @@
       </div>
     </section>
 
-    <!-- 5 · роспись и свадьба (раскладка A, кадр r32) -->
-    <section class="scene scene--w" id="svadba" data-bg="#4d3b38" data-bg-m="#625954" data-edge="R" data-fx=".32,.35,.055">
+    <!-- 5 · роспись и свадьба (кадр w23: подпись справа по пиджаку) -->
+    <section class="scene scene--w" id="svadba">
       <div class="scene__pin">
         <figure class="scene__frame">
-          <img class="scene__photo" src="../photos/r32.jpg" alt="роспись: невеста надевает жениху кольцо, тёплый интерьер с зеркалом" width="1920" height="2400" loading="lazy" decoding="async" style="--ox:50%;--oy:30%;--oxm:50%;--oym:50%">
+          <img class="scene__photo" src="../photos/w23.jpg" alt="руки молодожёнов с кольцом, букет калл, фата на фоне серого пиджака" width="1920" height="2880" loading="lazy" decoding="async" style="--ox:50%;--oy:47%;--oxm:20%;--oym:50%">
         </figure>
         <div class="scene__text grid">
           <h2 class="scene__h">роспись и&nbsp;свадьба</h2>
@@ -116,8 +115,8 @@
       </div>
     </section>
 
-    <!-- 6 · обо мне: поле бумаги, вход растворением из последнего кадра -->
-    <section class="field about" id="about" aria-labelledby="aboutH" data-bg="#f3eee6" data-fx="0,0,.035">
+    <!-- 6 · обо мне -->
+    <section class="field about" id="about" aria-labelledby="aboutH">
       <div class="grid about__grid">
         <h2 class="about__h" id="aboutH">привет, друзья</h2>
         <p class="about__body" id="aboutBody">
@@ -133,7 +132,7 @@
     </section>
 
     <!-- 7 · связь -->
-    <section class="field contact" id="contact" aria-labelledby="contactH" data-bg="#ebe4d8" data-fx="0,0,.035">
+    <section class="field contact" id="contact" aria-labelledby="contactH">
       <div class="grid contact__grid">
         <h2 class="contact__h" id="contactH">напиши мне</h2>
         <p class="contact__lines">ко&nbsp;мне в&nbsp;кадр снова можно попасть.</p>
