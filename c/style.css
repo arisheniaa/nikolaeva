@@ -47,9 +47,9 @@ a { color: inherit; text-decoration: none; }
   column-gap: var(--g); padding-inline: var(--m);
 }
  /* стрелка: один SVG на все кнопки; тело = лучи (1.25em), штрих = толщина текста, круглые концы */
-.ic { flex: none; fill: none; stroke: currentColor; stroke-width: .085em; overflow: visible; vertical-align: middle; }
-.ic--r { width: 1.375em; height: 1.5625em; }
-.ic--ne { width: 1.356em; height: 1.356em; }
+.ic { flex: none; fill: none; stroke: currentColor; stroke-width: .1em; overflow: visible; vertical-align: middle; }
+.ic--r { width: .9em; height: .9em; }   /* стрелка по образцу владельца: голова — прямой угол, концы срезаны */
+.ic--ne { width: .8em; height: .8em; }
 :focus-visible { outline: 1px solid var(--honey); outline-offset: 4px; }
 .skip { position: absolute; left: -9999px; }
 /* дисплей: штамп буквы на линии колонки — компенсация бокового отступа глифа (замер canvas, em от кегля).
