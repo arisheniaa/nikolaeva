@@ -12,8 +12,8 @@ a:hover{background:var(--ink);color:var(--paper)}
 </style></head><body><main>
 <div class="mono">черновик</div>
 <h1 id="t">страница пары</h1>
-<p>Её соберём, когда выберем один из двух вариантов главной.</p>
+<p>Её соберём, когда выберем вариант главной.</p>
 <a href="javascript:history.back()">← назад</a>
 </main>
-<script>if(new URLSearchParams(location.search).get('p')==='svadba')document.getElementById('t').textContent='роспись и свадьба'</script>
+<script>var q=new URLSearchParams(location.search).get('p');if(q==='svadba')document.getElementById('t').textContent='роспись и свадьба';if(q==='portret')document.getElementById('t').textContent='портреты'</script>
 </body></html>
