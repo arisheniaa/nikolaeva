@@ -100,7 +100,7 @@
 
     // Scrubbing Text Reveal: слова «обо мне» проступают .14 → 1
     gsap.to('#aboutBody .w', { opacity: 1, ease: 'none', stagger: .1,
-      scrollTrigger: { trigger: '#aboutBody', start: 'top 82%', end: 'bottom 72%', scrub: .6 } })
+      scrollTrigger: { trigger: '#about', start: 'top 85%', end: 'top top', scrub: .6 } })   // при магните к верху экрана текст проявлен целиком
     gsap.from('.about__h', { y: 48, opacity: 0, duration: 1.3, ease: 'power3.out',
       scrollTrigger: { trigger: '.about__h', start: 'top 85%' } })
     gsap.from('.contact__h', { yPercent: 30, opacity: 0, duration: 1.4, ease: 'power3.out',
