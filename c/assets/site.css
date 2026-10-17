@@ -1,0 +1,264 @@
+/* nastya nico · общее для всех страниц (вынесено из главной гибрида, Ф4).
+   Токены, сетка, шапка, капсулы, стрелки, экран-услуга, «смотреть кадры», блок «напиши мне», зерно, оверлей сетки.
+   Порядок правил сохранён как на главной: от него зависит каскад мобильных переопределений. */
+:root {
+  /* палитра B (замер PIL по photos/full) + поле r32 */
+  --graphite: #151413;
+  --honey: #c98a3c;         /* единственный акцент: дымка стыка, фокус, ховер */
+  --paper: #f3eee6;
+  --paper-2: #ebe4d8;       /* поле «связи»: на тон глубже, чтобы стык читался */
+  --ink: #1b1714;
+  --ink-2: #5b524a;
+  --light: #f3eee6;
+  --light-2: rgba(243, 238, 230, .72);
+
+  --sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --mono: "Geist Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  --t-xs: 12px; --t-s: 13px; --t-m: 15px; --t-l: 20px; --t-xl: 28px;
+  --t-3: clamp(44px, 8.4vw, 120px);
+  --t-4: clamp(64px, 11.6vw, 168px);
+
+  /* СЕТКА (главное правило владельца): 12 кол. / поля 40 / гаттер 20 */
+  --cols: 12; --m: 40px; --g: 20px;
+  /* вертикаль: только шкала */
+  --s1: 8px; --s2: 16px; --s3: 24px; --s4: 32px; --s6: 48px; --s8: 64px; --s12: 96px; --s16: 128px;
+  --hdr: 64px;
+  --ease: cubic-bezier(.22, .8, .2, 1);
+}
+/* телефон: 4 кол. / поля 16 / гаттер 12 */
+@media (max-width: 760px) { :root { --cols: 4; --m: 16px; --g: 12px; --light: #ffffff; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+body {
+  margin: 0; background: var(--graphite); color: var(--light);
+  font: 400 var(--t-m)/1.5 var(--sans); letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+main { overflow-x: clip; width: 100%; }
+img { display: block; max-width: 100%; }
+figure { margin: 0; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0; line-height: 1.6; }
+.grid {
+  display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  column-gap: var(--g); padding-inline: var(--m);
+}
+ /* стрелка: один SVG на все кнопки; тело = лучи (1.25em), штрих = толщина текста, круглые концы */
+.ic { flex: none; fill: none; stroke: currentColor; stroke-width: .1em; overflow: visible; vertical-align: middle; }
+.ic--r { width: .7em; height: .7em; }   /* стрелка по образцу владельца: голова — прямой угол, концы срезаны */
+.ic--ne { width: .62em; height: .62em; }
+:focus-visible { outline: 1px solid var(--honey); outline-offset: 4px; }
+.skip { position: absolute; left: -9999px; }
+/* дисплей: штамп буквы на линии колонки — компенсация бокового отступа глифа (замер canvas, em от кегля).
+   --ol левый отступ первой буквы строки; --or правая кромка последней (RSB + трекинг) для строк вправо. */
+.ln { display: block; margin-left: calc(var(--ol, 0) * -1em); }
+.skip:focus { left: var(--m); top: var(--s2); z-index: 100; background: var(--paper); color: var(--ink); padding: var(--s1) var(--s2); border-radius: 999px; }
+
+/* ---------- капсулы: ширина = колонки, текст по центру ---------- */
+.cap {
+  display: inline-flex; align-items: center; justify-content: center; column-gap: .4em;
+  height: 32px; padding: 0 var(--s2); border-radius: 999px; font-size: var(--t-s);
+  letter-spacing: -0.005em; white-space: nowrap; justify-self: stretch;
+  transition: background-color .5s var(--ease), color .5s var(--ease), transform .5s var(--ease);
+}
+.cap--line { border: 1px solid currentColor; }
+.cap--line:hover { background: var(--light); color: var(--graphite); }
+.cap--solid { height: 56px; font-size: var(--t-m); background: var(--ink); color: var(--paper); }
+.cap--solid:hover { transform: translateY(-2px); background: #000; }
+.cap:active { transform: scale(.98); }
+
+/* ---------- шапка: лого · три пункта по колонкам · «написать» (без часов и приписок) ---------- */
+.hdr {
+  position: fixed; inset: 0 0 auto; z-index: 50; height: var(--hdr);
+  display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); column-gap: var(--g);
+  align-items: center; padding-inline: var(--m);
+  color: var(--light); font-size: var(--t-s); text-shadow: 0 0 14px rgba(0, 0, 0, .35);
+  transition: color .5s var(--ease);
+}
+.hdr__cta { grid-column: 11 / 13; background: rgba(21, 20, 19, .6); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.hdr--ink { color: var(--ink); text-shadow: none; background: linear-gradient(var(--paper) 60%, rgba(243, 238, 230, 0)); }
+.hdr--ink .hdr__cta { background: rgba(243, 238, 230, .6); }
+.hdr--ink .cap--line:hover { background: var(--ink); color: var(--paper); }
+.hdr__logo { grid-column: 1 / 3; letter-spacing: -0.02em; font-weight: 500; }
+.hdr__nav { display: contents; }
+.hdr__link { opacity: .92; transition: opacity .3s; }
+.hdr__link--1 { grid-column: 5 / 6; }
+.hdr__link--2 { grid-column: 6 / 7; }
+.hdr__link--3 { grid-column: 7 / 8; }
+.hdr__link:hover { opacity: .55; }
+/* активный пункт: тонкое подчёркивание по ширине слова (ширина и место пункта на сетке не меняются) */
+.hdr__link[aria-current="page"], .menu a[aria-current="page"] {
+  opacity: 1; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .4em;
+}
+/* читаемость шапки: одна мягкая полоса-затенение сверху на всю ширину (вместо пятен под словами); над бумагой выключена */
+.hdr::before {
+  content: ""; position: absolute; inset: 0 0 calc(var(--hdr) * -1); z-index: -1; pointer-events: none;
+  background: linear-gradient(rgba(10, 9, 8, .74), rgba(10, 9, 8, .56) 50%, rgba(10, 9, 8, 0));
+  transition: opacity .5s var(--ease);
+}
+.hdr--ink::before { opacity: 0; }
+.hdr__menu { display: none; }
+.menu { display: none; }
+@media (max-width: 760px) {
+  .hdr__link { display: none; }
+  .hdr__logo { grid-column: 1 / 2; white-space: nowrap; }
+  .hdr__menu {
+    display: block; grid-column: 2 / 3; text-align: left; background: none; border: 0; padding: var(--s1) 0;
+    color: inherit; font: inherit; text-shadow: inherit; cursor: pointer;
+  }
+  .hdr__cta { grid-column: 3 / 5; padding: 0; background: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  /* 390: без плашек и размытия; над светлым кадром (f02) шапка чернилами */
+  .hdr::before { display: none; }   /* 390: без градиента (слово владельца), читаемость — тоном шапки по кадру */
+  .hdr { text-shadow: none; }
+  .hdr--dark { color: var(--ink); }
+  .hdr--solid { background: var(--graphite); }   /* только над сериями внутренних страниц (site.js) */
+  .menu:not([hidden]) {
+    position: fixed; inset: 0; z-index: 40; display: grid; align-content: center; row-gap: var(--s1);
+    background: var(--paper); color: var(--ink);
+  }
+  .menu a { grid-column: 1 / -1; font-size: 44px; letter-spacing: -0.05em; line-height: 1.1; }
+  .menu a[aria-current="page"] { text-decoration-thickness: 2px; text-underline-offset: .16em; }
+}
+
+/* ---------- экраны с кадром (экран-услуга): секции 100svh в потоке (круг 3: только пролистывание) ---------- */
+.screens { position: relative; background: var(--graphite); }
+.scene { position: relative; }
+.scene__pin {
+  position: relative; height: 100vh; height: 100svh; overflow: hidden; background: var(--scene-bg, var(--graphite));
+  display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); grid-template-rows: 100%;
+  column-gap: var(--g); padding-inline: var(--m);
+}
+
+/* 1440: кадр на всю ширину, cover минимального масштаба (ширина кадра = ширина экрана); двигается только
+   точка фокуса по вертикали. Полей и кромок нет. */
+.scene__frame { position: relative; grid-row: 1; grid-column: 1 / -1; margin-inline: calc(var(--m) * -1); height: 100%; overflow: hidden; }
+.scene__frame picture { display: contents; }   /* иначе inline-picture ломает height:100% у кадра */
+.scene__photo {
+  width: 100%; height: 100%; object-fit: cover;
+  object-position: var(--ox, 50%) var(--oy, 50%);
+}
+
+.scene__text {
+  position: absolute; inset: 0; z-index: 1;
+  padding-top: calc(var(--hdr) + var(--s3)); padding-bottom: var(--s8);
+  align-content: end; align-items: end; row-gap: var(--s3);
+}
+.scene__h {
+  grid-row: 1; margin: 0; font-weight: 300; font-size: var(--t-3); line-height: .9; letter-spacing: -0.06em;
+}
+.scene__side { grid-row: 1; display: grid; row-gap: var(--s3); color: var(--side-ink, var(--light)); }
+.note { margin: 0; }
+.note span { display: block; }
+
+/* читаемость: мягкое затенение только под текстовым блоком (размытая плашка за текстом, не на весь кадр).
+   Сила подобрана замером контраста (CONTRAST в GRID-CHECK.md); на обложке 0: кадр чистый, текст на тёмном. */
+.scene__h, .scene__side { position: relative; }
+.scene__h::before, .scene__side::before {
+  content: ""; position: absolute; inset: calc(var(--s4) * -1) calc(var(--s6) * -1); z-index: -1; pointer-events: none;
+  background: rgba(10, 9, 8, var(--sh, .4)); border-radius: var(--s6); filter: blur(40px);
+}
+.scene--p { --sh: .38; }
+.scene--w { --sh: .5; }
+
+/* раскладки экранов «пара» и «роспись и свадьба» (главная и первые экраны /para, /svadba) */
+.scene--w .scene__h .ln { margin-left: 0; margin-right: calc(var(--or, 0) * -1em); }   /* строки вправо: правая кромка последней буквы */
+.scene--p .scene__h { grid-column: 1 / 8; }
+.scene--p .scene__side { grid-column: 10 / 13; }
+/* w23: левая половина кадра — белая фата и рукав, правая — тёмный пиджак: подпись целиком справа */
+.scene--w .scene__h { grid-column: 6 / 13; grid-row: 2; text-align: right; }
+.scene--w .scene__side { grid-column: 10 / 13; grid-row: 1; }
+
+/* «смотреть кадры →»: моно-ссылка B, линия на всю ширину своих колонок */
+.more {
+  display: flex; justify-content: space-between; align-items: center; gap: var(--s2);
+  padding-bottom: var(--s1); border-bottom: 1px solid color-mix(in srgb, currentColor 72%, transparent);
+  transition: border-color .4s var(--ease);
+}
+.more__arr { transition: transform .5s var(--ease); }
+.more:hover { border-color: var(--honey); }
+.more:hover .more__arr { transform: translateX(4px); }
+
+@media (max-width: 760px) {
+  /* 390 (круг 4, слово владельца): чистая фотография на весь экран и текст прямо на ней — без градиентов,
+     размытия и затемнений. Кадр вписан по высоте (вертикаль целиком), двигается только по горизонтали;
+     читаемость — подбором точки фокуса и места подписи (тёмные участки), проверено contrast.py */
+  .scene__photo { object-position: var(--oxm, var(--ox)) 50%; }
+  .scene__h::before, .scene__side::before { display: none; }
+  .scene__text { padding-bottom: var(--s6); row-gap: var(--s3); }
+  .scene__h { font-size: 13vw; }
+  .scene .scene__h { grid-column: 1 / 5; grid-row: 1; text-align: left; }
+  .scene .scene__side { grid-column: 1 / 5; grid-row: 2; }
+  .note { font-size: 13px; }
+  .scene--w .scene__h { grid-column: 2 / 5; text-align: right; }             /* w23: подпись справа по пиджаку */
+  .scene--w .scene__side { grid-column: 3 / 5; text-align: right; }   /* заметка в 3 строки по пиджаку, мимо лент */
+  /* w23: ленты слева и белая фата в правом нижнем углу — блок выше (96) и заголовок 11vw, чтобы строка
+     «и свадьба» начиналась правее лент; без плашек и затемнений (замер contrast.py) */
+  .scene--w .scene__text { padding-bottom: var(--s12); }
+  .scene--w .scene__h { font-size: 11vw; }
+  .scene--w .more { justify-self: end; width: 100%; }   /* кол.3–4 = вся ширина заметки */
+}
+
+/* ---------- поля: блок «напиши мне» (один на все страницы) ---------- */
+.field { position: relative; color: var(--ink); min-height: 100vh; min-height: 100svh; }
+.contact { background: var(--paper-2); padding-top: var(--s16); min-height: 100vh; min-height: 100svh; }
+.contact__grid { align-content: start; }
+
+.contact__grid {
+  row-gap: var(--s4); padding-top: var(--s8); padding-bottom: var(--s16);
+  margin-inline: var(--m); padding-inline: 0;
+}
+.contact__h { grid-column: 1 / 13; margin: 0; font-weight: 300; font-size: var(--t-4); line-height: .86; letter-spacing: -0.065em; }
+.contact__lines { grid-column: 1 / 6; margin: 0; font-size: var(--t-l); line-height: 1.4; letter-spacing: -0.02em; align-self: center; }
+.contact__btn { grid-column: 7 / 10; }
+.contact__quiet { grid-column: 10 / 13; list-style: none; margin: 0; padding: 0; align-self: center; display: grid; row-gap: var(--s1); color: var(--ink-2); font-size: var(--t-s); }
+.contact__quiet a { display: inline-flex; align-items: center; column-gap: .4em; border-bottom: 1px solid transparent; transition: border-color .3s; }
+.contact__quiet a:hover { border-color: currentColor; color: var(--ink); }
+
+@media (max-width: 760px) {
+  /* 390: блок ровно в экран устройства (100dvh, запасной 100svh); содержимое распределено по высоте:
+     заголовок сверху под шапкой, остальное у нижнего края — как на экранах с кадром */
+  .contact { height: 100svh; height: 100dvh; min-height: 0; display: flex; flex-direction: column;
+    padding: calc(var(--hdr) + var(--s4)) 0 var(--s6); }
+  .contact__grid { flex: 1; align-content: stretch; padding-block: 0; }
+  .contact__grid { grid-template-rows: auto 1fr auto auto auto; row-gap: var(--s3); }
+  .contact__h { grid-row: 1; }
+  .contact__lines { grid-row: 3; }
+  .contact__btn { grid-row: 4; }
+  .contact__quiet { grid-row: 5; }
+  /* ширина глифов «напиши мне» = 4.967 кегля (замер canvas с трекингом −0.065em): строка ровно от поля до поля */
+  .contact__h { grid-column: 1 / 5; font-size: calc((100vw - 2 * var(--m)) / 4.967); white-space: nowrap; }
+  .contact__lines { grid-column: 1 / 5; font-size: 18px; }
+  .contact__btn { grid-column: 1 / 5; }
+  .contact__quiet { grid-column: 1 / 5; justify-items: end; text-align: right; }
+}
+
+/* зерно бумаги: SVG-шум, статично */
+.field::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .06; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- оверлей сетки (g / ?grid) ---------- */
+.gridov { position: fixed; inset: 0; z-index: 90; pointer-events: none; display: none; }
+.gridov .grid { height: 100%; }
+.gridov i { background: rgba(255, 52, 52, .1); box-shadow: inset 1px 0 rgba(255, 52, 52, .55), inset -1px 0 rgba(255, 52, 52, .55); }
+.show-grid .gridov { display: block; }
+.gridov::after {  /* ритм 8 px */
+  content: ""; position: absolute; inset: 0;
+  background: repeating-linear-gradient(to bottom, rgba(60, 140, 255, .14) 0 1px, transparent 1px 8px);
+}
+@media (max-width: 760px) { .gridov i:nth-child(n+5) { display: none; } }
+
+/* ---------- reduced motion и без JS-режиссуры: статика, весь контент виден ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .more__arr, .cap, .more { transition: none; }
+}
+
+/* 390: экраны с кадром тоже ровно в экран устройства с учётом панели браузера */
+@media (max-width: 760px) { .scene__pin { height: 100svh; height: 100dvh; } }
