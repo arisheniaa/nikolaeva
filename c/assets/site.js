@@ -54,37 +54,75 @@
      касание/колесо/клавиша его прерывает. reduced-motion: Lenis не стартует — магнита нет. */
   const snap = { busy: false, off: false }
   window.__snap = snap
+  /* Постраничный скролл (владелец 17.10: «как в варианте B» — один жест = один экран, без проскока).
+     Колесо/тачпад, свайп и клавиши на краю экрана перехватываются: страница едет ровно к соседнему экрану,
+     пока она едет и пока не стихла инерция тачпада — новые жесты гасятся. Внутри экрана выше окна (серия кадров;
+     обо мне/связь, если выше окна) — свободное чтение, на его краях снова листается по экрану. */
   function magnet(lenis) {
-    let t = 0, touching = false, dir = 1
     const vh = () => innerHeight
-    const points = () => {
+    let lockUntil = 0, busy = false, ty = null, t = 0, lastT = 0, lastD = 0
+    const map = () => {
       const max = document.documentElement.scrollHeight - vh(), pts = new Set([0, max]), free = []
       screens.forEach(s => {
         const top = Math.round(s.getBoundingClientRect().top + scrollY), h = s.offsetHeight
         pts.add(Math.min(top, max))
         if (h > vh() + 2) { const bot = Math.min(top + h - vh(), max); pts.add(bot); free.push([top, bot]) }
       })
-      return { pts: [...pts].sort((a, b) => a - b), free }
+      return { pts: [...pts].sort((x, y) => x - y), free }
     }
-    const go = () => {
-      if (snap.off || snap.busy || touching) return
-      const y = (lenis.targetScroll ?? lenis.scroll), { pts, free } = points()   // решаем по цели Lenis, а не по догоняющей позиции
-      if (free.some(([a, b]) => y > a + 1 && y < b - 1)) return          // читаем внутри высокого экрана
-      if (pts.some(p => Math.abs(p - y) < 2)) return                    // уже на краю
-      const prev = Math.max(...pts.filter(p => p < y)), next = Math.min(...pts.filter(p => p > y))
-      const th = vh() * .15
-      const target = dir > 0 ? (y - prev > th ? next : prev) : (next - y > th ? prev : next)
-      snap.busy = true
-      lenis.scrollTo(target, { duration: .42, easing: (k) => 1 - Math.pow(1 - k, 3), onComplete: () => { snap.busy = false } })
+    const y0 = () => (busy ? (lenis.targetScroll ?? lenis.scroll) : lenis.scroll)
+    // свободная зона: внутри высокого экрана и движение не упирается в его край
+    const isFree = (dir) => {
+      const y = lenis.scroll, { free } = map()
+      return free.some(([a, b]) => (dir > 0 ? y >= a - 2 && y < b - 2 : y > a + 2 && y <= b + 2))
     }
-    const arm = () => { clearTimeout(t); t = setTimeout(go, 90) }
-    lenis.on('scroll', (e) => { if (e.direction) dir = e.direction; if (!snap.busy) arm() })
-    const interrupt = () => { snap.busy = false; clearTimeout(t) }
-    addEventListener('wheel', interrupt, { passive: true })
-    addEventListener('keydown', interrupt)
-    addEventListener('touchstart', () => { touching = true; interrupt() }, { passive: true })
-    addEventListener('touchend', () => { touching = false; arm() }, { passive: true })
-    addEventListener('touchcancel', () => { touching = false; arm() }, { passive: true })
+    const page = (dir) => {
+      if (busy) return
+      clearTimeout(t)
+      const y = y0(), { pts } = map()
+      const target = dir > 0 ? Math.min(...pts.filter(p => p > y + 2)) : Math.max(...pts.filter(p => p < y - 2))
+      if (!isFinite(target)) return
+      busy = true; snap.busy = true
+      lenis.scrollTo(target, { duration: .8, easing: (k) => (k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2),
+        onComplete: () => { busy = false; snap.busy = false; lockUntil = performance.now() + 200 } })
+    }
+    const intercept = (dir) => !snap.off && !isFree(dir)
+    addEventListener('wheel', (e) => {
+      if (e.ctrlKey || Math.abs(e.deltaY) < Math.abs(e.deltaX)) return
+      const dir = Math.sign(e.deltaY); if (!dir || !intercept(dir)) return
+      e.preventDefault(); e.stopImmediatePropagation()
+      // новый жест: пауза > 220 мс или рывок сильнее затухающей инерции; хвост инерции тачпада страниц не листает
+      const now = performance.now(), d = Math.abs(e.deltaY)
+      const fresh = now - lastT > 220 || d > lastD * 1.6 + 4
+      lastT = now; lastD = d
+      if (!fresh || busy || now < lockUntil) return
+      page(dir)
+    }, { passive: false, capture: true })
+    addEventListener('keydown', (e) => {
+      const k = e.key, dir = (k === 'ArrowDown' || k === 'PageDown' || (k === ' ' && !e.shiftKey)) ? 1
+        : (k === 'ArrowUp' || k === 'PageUp' || (k === ' ' && e.shiftKey)) ? -1 : 0
+      if (!dir || e.target.closest('input, textarea, [contenteditable], dialog[open]') || !intercept(dir)) return
+      e.preventDefault(); if (!busy) page(dir)
+    })
+    addEventListener('touchstart', (e) => { ty = e.touches[0].clientY }, { passive: true })
+    addEventListener('touchmove', (e) => {
+      if (ty == null) return
+      const dir = Math.sign(ty - e.touches[0].clientY)
+      if (dir && intercept(dir)) e.preventDefault()
+    }, { passive: false })
+    addEventListener('touchend', (e) => {
+      if (ty == null) return
+      const dy = ty - e.changedTouches[0].clientY, dir = Math.sign(dy); ty = null
+      if (Math.abs(dy) > 40 && intercept(dir) && !busy) page(dir)
+    }, { passive: true })
+    // свободная зона: после остановки внутри неё на краю — мягко доводим к краю, если чуть перелетели
+    lenis.on('scroll', () => { if (busy) return; clearTimeout(t); t = setTimeout(() => {
+      if (busy || performance.now() < lockUntil) return
+      const y = lenis.scroll, { pts, free } = map()
+      if (free.some(([a, b]) => y > a + 1 && y < b - 1) || pts.some(p => Math.abs(p - y) < 2)) return
+      const near = pts.reduce((m, p) => Math.abs(p - y) < Math.abs(m - y) ? p : m, pts[0])
+      busy = true; lenis.scrollTo(near, { duration: .42, onComplete: () => { busy = false } })
+    }, 120) })
   }
 
   /* ---------- Lenis + ScrollTrigger ---------- */
