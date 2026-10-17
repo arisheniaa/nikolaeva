@@ -63,7 +63,7 @@
     splitWords(body)
     gsap.registerPlugin(ScrollTrigger)
     if (window.Lenis) {
-      const lenis = new Lenis({ lerp: .085, wheelMultiplier: .9 })
+      const lenis = new Lenis({ lerp: .12, wheelMultiplier: .9 })
       window.__lenis = lenis
       lenis.on('scroll', ScrollTrigger.update)
       lenis.on('scroll', hdrTone)
@@ -111,7 +111,7 @@
      После остановки скролла (колесо, тач, клавиши, полоса) страница сама доезжает до ближайшего края экрана
      с учётом направления: ушли от края больше чем на 15% экрана в сторону следующего — едем к следующему,
      иначе возвращаемся. Экран выше окна (обо мне/связь на телефоне) — свободное чтение внутри, магнит к его
-     верху и низу. Доезд 0.7 с ease-out, любое новое касание/колесо/клавиша его прерывает.
+     верху и низу. Доезд 0.42 с ease-out (ускорено по просьбе владельца 17.10), любое новое касание/колесо/клавиша его прерывает.
      reduced-motion: Lenis не стартует — магнита нет. */
   const snap = { busy: false, off: false }
   window.__snap = snap
@@ -129,16 +129,16 @@
     }
     const go = () => {
       if (snap.off || snap.busy || touching) return
-      const y = lenis.scroll, { pts, free } = points()
+      const y = (lenis.targetScroll ?? lenis.scroll), { pts, free } = points()   // решаем по цели Lenis, а не по догоняющей позиции
       if (free.some(([a, b]) => y > a + 1 && y < b - 1)) return          // читаем внутри высокого экрана
       if (pts.some(p => Math.abs(p - y) < 2)) return                    // уже на краю
       const prev = Math.max(...pts.filter(p => p < y)), next = Math.min(...pts.filter(p => p > y))
       const th = vh() * .15
       const target = dir > 0 ? (y - prev > th ? next : prev) : (next - y > th ? prev : next)
       snap.busy = true
-      lenis.scrollTo(target, { duration: .7, easing: (k) => 1 - Math.pow(1 - k, 3), onComplete: () => { snap.busy = false } })
+      lenis.scrollTo(target, { duration: .42, easing: (k) => 1 - Math.pow(1 - k, 3), onComplete: () => { snap.busy = false } })
     }
-    const arm = () => { clearTimeout(t); t = setTimeout(go, 160) }
+    const arm = () => { clearTimeout(t); t = setTimeout(go, 90) }
     lenis.on('scroll', (e) => { if (e.direction) dir = e.direction; if (!snap.busy) arm() })
     const interrupt = () => { snap.busy = false; clearTimeout(t) }
     addEventListener('wheel', interrupt, { passive: true })
